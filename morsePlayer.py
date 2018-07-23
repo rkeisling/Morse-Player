@@ -22,14 +22,14 @@ def makeListRemovePunctuationLower(message):
 
 def buildAudio(morseMessage):
   audio = []
-  charList = morseMessage.split()
+  charList = list(morseMessage)
   for char in charList:
-    if char == "-":
-      audio = append_sinewave(audio, volume=0.25)
-    elif char == ".":
-      audio = append_sinewave(audio, volume=0.25, duration_milliseconds=1500)
-    else:
-      audio = append_silence(audio)
+      if char == "-":
+          audio = append_sinewave(audio, volume=0.25)
+      elif char == ".":
+          audio = append_sinewave(audio, volume=0.25, duration_milliseconds=1500)
+      else:
+          audio = append_silence(audio)
   return audio
 
 def translateMessageToMorse(message):
@@ -77,9 +77,8 @@ def translateMessageToMorse(message):
     trans_word = []
     for letter in word:
         trans_word.append(morseTransList[letter])
-        print(letter)
     message.append(' '.join(trans_word))
-  finalMorse = "..--".join(message)
+  finalMorse = " ..-- ".join(message)
   return finalMorse
 
 def append_silence(audio):
