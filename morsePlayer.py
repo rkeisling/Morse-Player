@@ -10,14 +10,10 @@ def main(message):
 
 def makeListRemovePunctuationLower(message):
   list_of_words = message.split(' ')
-  # just removes all special characters efficiently
-  # list_of_words = list_of_words.translate(None, string.punctuation)
   new_list = []
   exclude = set(string.punctuation)
   for word in list_of_words:
-      new_word = ''.join(ch for ch in word if ch not in exclude)
-      new_list.append(new_word)
-  new_list = [word.lower() for word in new_list]
+      new_list.append(''.join(ch.lower() for ch in word if ch not in exclude))
   return new_list
 
 def buildAudio(morseMessage):
@@ -80,15 +76,15 @@ def translateMessageToMorse(message):
     for letter in word:
         trans_word.append(morseTransList[letter])
     message.append(' '.join(trans_word))
-  finalMorse = " ".join(message)
-  return finalMorse
+  return " ".join(message)
+
 
 def append_silence(audio,
                    duration_milliseconds=200):
     """
     Adding silence is easy - we add zeros to the end of our array
     """
-    sample_rate = 20000.0
+    sample_rate = 8000.0
     num_samples = duration_milliseconds * (sample_rate / 1000.0)
 
     for x in range(int(num_samples)):
@@ -97,18 +93,17 @@ def append_silence(audio,
     return audio
 
 
-def append_sinewave(
-        audio,
-        freq=650.0,
-        duration_milliseconds=500,
-        volume=1.0):
+def append_sinewave(audio,
+                    freq=650.0,
+                    duration_milliseconds=500,
+                    volume=1.0):
     """
     The sine wave generated here is the standard beep.  If you want something
     more aggresive you could try a square or saw tooth waveform.   Though there
     are some rather complicated issues with making high quality square and
     sawtooth waves... which we won't address here :)
     """
-    sample_rate = 20000.0
+    sample_rate = 8000.0
     num_samples = duration_milliseconds * (sample_rate / 1000.0)
 
     for x in range(int(num_samples)):
@@ -123,7 +118,7 @@ def save_wav(file_name, audio):
 
     # wav params
     nchannels = 1
-    sample_rate = 20000.0
+    sample_rate = 8000.0
     sampwidth = 2
 
     # 44100 is the industry standard sample rate - CD quality.  If you need to
