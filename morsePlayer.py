@@ -3,10 +3,10 @@ import math
 import wave
 import struct
 
-def main():
-  pseudoMessage = "hello my name is -what- my name is -who- my name is -chicka chicka slim shady-"
-  built_audio = buildAudio(translateMessageToMorse(pseudoMessage))
-  save_wav("output.wav", built_audio)
+def main(message):
+  built_audio = buildAudio(translateMessageToMorse(message))
+  first_word = makeListRemovePunctuationLower(message)[0]
+  save_wav("{}.wav".format(first_word), built_audio)
 
 def makeListRemovePunctuationLower(message):
   list_of_words = message.split(' ')
@@ -147,4 +147,5 @@ def save_wav(file_name, audio):
     return
 
 if __name__ == '__main__':
-    main()
+    message = input("Please input your message:\n")
+    main(message)
