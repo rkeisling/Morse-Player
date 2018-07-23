@@ -25,11 +25,13 @@ def buildAudio(morseMessage):
   charList = list(morseMessage)
   for char in charList:
       if char == "-":
-          audio = append_sinewave(audio, volume=0.25)
-      elif char == ".":
-          audio = append_sinewave(audio, volume=0.25, duration_milliseconds=1500)
-      else:
+          audio = append_sinewave(audio, duration_milliseconds=300)
           audio = append_silence(audio)
+      elif char == ".":
+          audio = append_sinewave(audio, duration_milliseconds=100)
+          audio = append_silence(audio)
+      else:
+          audio = append_silence(audio, duration_milliseconds=400)
   return audio
 
 def translateMessageToMorse(message):
@@ -78,15 +80,15 @@ def translateMessageToMorse(message):
     for letter in word:
         trans_word.append(morseTransList[letter])
     message.append(' '.join(trans_word))
-  finalMorse = " ..-- ".join(message)
+  finalMorse = " ".join(message)
   return finalMorse
 
-def append_silence(audio):
+def append_silence(audio,
+                   duration_milliseconds=200):
     """
     Adding silence is easy - we add zeros to the end of our array
     """
-    sample_rate = 44100.0
-    duration_milliseconds=500
+    sample_rate = 20000.0
     num_samples = duration_milliseconds * (sample_rate / 1000.0)
 
     for x in range(int(num_samples)):
@@ -97,7 +99,7 @@ def append_silence(audio):
 
 def append_sinewave(
         audio,
-        freq=440.0,
+        freq=650.0,
         duration_milliseconds=500,
         volume=1.0):
     """
@@ -106,7 +108,7 @@ def append_sinewave(
     are some rather complicated issues with making high quality square and
     sawtooth waves... which we won't address here :)
     """
-    sample_rate = 44100.0
+    sample_rate = 20000.0
     num_samples = duration_milliseconds * (sample_rate / 1000.0)
 
     for x in range(int(num_samples)):
@@ -121,7 +123,7 @@ def save_wav(file_name, audio):
 
     # wav params
     nchannels = 1
-    sample_rate = 44100.0
+    sample_rate = 20000.0
     sampwidth = 2
 
     # 44100 is the industry standard sample rate - CD quality.  If you need to
